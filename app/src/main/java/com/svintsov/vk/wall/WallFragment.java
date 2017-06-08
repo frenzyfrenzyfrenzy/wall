@@ -23,10 +23,19 @@ import butterknife.ButterKnife;
 
 public class WallFragment extends Fragment {
 
+    private PostsAdapter adapter;
+
     @BindView(R.id.fragment_wall_recycler_view)
     RecyclerView recyclerView;
 
     public WallFragment() {
+    }
+
+    public static WallFragment newInstance(PostsAdapter adapter) {
+        WallFragment fragment = new WallFragment();
+        fragment.adapter = adapter;
+        fragment.setRetainInstance(true);
+        return fragment;
     }
 
     @Override
@@ -40,7 +49,10 @@ public class WallFragment extends Fragment {
         return fragmentView;
     }
 
-    public void initList(PostsAdapter adapter) {
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());

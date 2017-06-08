@@ -4,7 +4,10 @@
     android:id="@+id/fragment_post_layout_root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.svintsov.vk.wall.PostFragment">
+    tools:context="com.svintsov.vk.wall.PostFragment"
+    android:background="@color/colorWhite"
+    android:clickable="true"
+    android:padding="16dp">
 
     <TextView
         android:id="@+id/fragment_post_text_view_post"

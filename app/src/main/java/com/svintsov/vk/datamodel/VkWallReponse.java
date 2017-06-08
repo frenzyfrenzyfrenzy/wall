@@ -4,8 +4,11 @@ package com.svintsov.vk.datamodel;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import org.parceler.Parcel;
+
 import java.util.List;
 
+@Parcel
 public class VkWallReponse {
 
     @SerializedName("response")
@@ -20,6 +23,7 @@ public class VkWallReponse {
         this.response = response;
     }
 
+    @Parcel
     public static class Attachment {
 
         @SerializedName("type")
@@ -80,6 +84,7 @@ public class VkWallReponse {
 
     }
 
+    @Parcel
     public static class Attachment_ {
 
         @SerializedName("type")
@@ -151,6 +156,7 @@ public class VkWallReponse {
 
     }
 
+    @Parcel
     public static class Comments {
 
         @SerializedName("count")
@@ -167,6 +173,7 @@ public class VkWallReponse {
 
     }
 
+    @Parcel
     public static class Likes {
 
         @SerializedName("count")
@@ -183,6 +190,7 @@ public class VkWallReponse {
 
     }
 
+    @Parcel
     public static class Link {
 
         @SerializedName("url")
@@ -254,6 +262,7 @@ public class VkWallReponse {
 
     }
 
+    @Parcel
     public static class Link_ {
 
         @SerializedName("url")
@@ -325,6 +334,7 @@ public class VkWallReponse {
 
     }
 
+    @Parcel
     public static class Page {
 
         @SerializedName("pid")
@@ -374,6 +384,7 @@ public class VkWallReponse {
 
     }
 
+    @Parcel
     public static class Photo {
 
         @SerializedName("pid")
@@ -555,6 +566,7 @@ public class VkWallReponse {
 
     }
 
+    @Parcel
     public static class Photo_ {
 
         @SerializedName("pid")
@@ -736,6 +748,7 @@ public class VkWallReponse {
 
     }
 
+    @Parcel
     public static class Poll {
 
         @SerializedName("poll_id")
@@ -763,6 +776,7 @@ public class VkWallReponse {
 
     }
 
+    @Parcel
     public static class Poll_ {
 
         @SerializedName("poll_id")
@@ -790,6 +804,7 @@ public class VkWallReponse {
 
     }
 
+    @Parcel
     public static class Reposts {
 
         @SerializedName("count")
@@ -806,6 +821,7 @@ public class VkWallReponse {
 
     }
 
+    @Parcel
     public static class Response {
 
         @SerializedName("id")
@@ -998,6 +1014,7 @@ public class VkWallReponse {
 
     }
 
+    @Parcel
     public static class Video {
 
         @SerializedName("vid")
@@ -1146,6 +1163,7 @@ public class VkWallReponse {
 
     }
 
+    @Parcel
     public static class Video_ {
 
         @SerializedName("vid")

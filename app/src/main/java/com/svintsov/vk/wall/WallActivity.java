@@ -1,33 +1,35 @@
 package com.svintsov.vk.wall;
 
+import android.content.res.Configuration;
+import android.graphics.drawable.GradientDrawable;
+import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.widget.FrameLayout;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.svintsov.vk.R;
 import com.svintsov.vk.datamodel.VkWallReponse;
 import com.svintsov.vk.global.StateHolder;
-import com.svintsov.vk.utility.Parser;
-import com.svintsov.vk.web.VkWebApi;
-import com.svintsov.vk.web.VkWebClient;
 
-import java.io.IOException;
-import java.util.List;
-
-import okhttp3.ResponseBody;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 public class WallActivity extends AppCompatActivity {
 
-    private final StateHolder stateHolder = new StateHolder(getSupportFragmentManager(), getClass().getSimpleName());;
+    private final StateHolder stateHolder = new StateHolder(getSupportFragmentManager(), getClass().getSimpleName());
+    ;
     private WallPresenter presenter;
 
     private PostFragment postFragment;
     private WallFragment wallFragment;
+
+    @Nullable
+    @BindView(R.id.activity_wall_layout_post)
+    FrameLayout layoutPost;
+
+    @BindView(R.id.activity_wall_layout_wall)
+    FrameLayout layoutWall;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,13 +42,28 @@ public class WallActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_wall);
 
+        ButterKnife.bind(this);
+
         FragmentManager fragmentManager = getSupportFragmentManager();
-        postFragment = (PostFragment) fragmentManager.findFragmentById(R.id.activity_wall_post_fragment);
-        wallFragment = (WallFragment) fragmentManager.findFragmentById(R.id.activity_wall_wall_fragment);
+        postFragment = (PostFragment) fragmentManager.findFragmentByTag(PostFragment.class.getSimpleName());
+        wallFragment = (WallFragment) fragmentManager.findFragmentByTag(WallFragment.class.getSimpleName());
 
-        if (postFragment!=null) postFragment.setRetainInstance(true);
+        if ((wallFragment == null) && (layoutWall != null)) {
+            wallFragment = WallFragment.newInstance(presenter.getAdapter());
+            fragmentManager
+                    .beginTransaction()
+                    .add(R.id.activity_wall_layout_wall, wallFragment, WallFragment.class.getSimpleName())
+                    .commit();
+        }
 
-        wallFragment.initList(presenter.getAdapter());
+        if ((postFragment == null) && (layoutPost != null)
+                && (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE)) {
+            postFragment = PostFragment.getInstance(null);
+            fragmentManager
+                    .beginTransaction()
+                    .add(R.id.activity_wall_layout_post, postFragment, PostFragment.class.getSimpleName())
+                    .commit();
+        }
 
         presenter.onLoadWall(1);
     }
@@ -55,6 +72,19 @@ public class WallActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         presenter.onDestroy(isChangingConfigurations());
+    }
+
+    @Override
+    public void onBackPressed() {
+        if ((postFragment != null)
+                && (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT)) {
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .setCustomAnimations( R.anim.enter_from_bottom, R.anim.exit_to_bottom)
+                    .remove(postFragment)
+                    .commit();
+            postFragment = null;
+        }
     }
 
     public WallPresenter getPresenter() {
@@ -67,6 +97,14 @@ public class WallActivity extends AppCompatActivity {
 
     void updateUiPostSelected(VkWallReponse.Response post) {
         if (postFragment != null) postFragment.udpatePost(post);
+        else {
+            postFragment = PostFragment.getInstance(post);
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .setCustomAnimations( R.anim.enter_from_bottom, R.anim.exit_to_bottom)
+                    .add(R.id.activity_wall_layout_post, postFragment, PostFragment.class.getSimpleName())
+                    .commit();
+        }
     }
 
     /********

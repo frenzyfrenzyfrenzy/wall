@@ -4,6 +4,7 @@ package com.svintsov.vk.wall;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,10 +13,14 @@ import android.widget.TextView;
 import com.svintsov.vk.R;
 import com.svintsov.vk.datamodel.VkWallReponse;
 
+import org.parceler.Parcels;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class PostFragment extends Fragment {
+
+    private final static String postKey = "POST_KEY_BUNDLE";
 
     private VkWallReponse.Response post;
 
@@ -23,6 +28,12 @@ public class PostFragment extends Fragment {
     TextView textViewPost;
 
     public PostFragment() {
+    }
+
+    public static PostFragment getInstance(VkWallReponse.Response post) {
+        PostFragment fragment = new PostFragment();
+        fragment.post = post;
+        return fragment;
     }
 
     @Override
@@ -33,10 +44,18 @@ public class PostFragment extends Fragment {
 
         ButterKnife.bind(this, fragmentView);
 
+        if (savedInstanceState != null)
+            post = Parcels.unwrap(savedInstanceState.getParcelable(postKey));
         if (post!=null)
-            textViewPost.setText(post.getText());
+            textViewPost.setText(Html.fromHtml(post.getText()));
 
         return fragmentView;
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelable(postKey, Parcels.wrap(VkWallReponse.Response.class, post));
     }
 
     @Override
@@ -46,6 +65,6 @@ public class PostFragment extends Fragment {
 
     public void udpatePost(VkWallReponse.Response post) {
         this.post = post;
-        textViewPost.setText(post.getText());
+        textViewPost.setText(Html.fromHtml(post.getText()));
     }
 }

@@ -2,6 +2,7 @@ package com.svintsov.vk.adapters;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,7 +46,7 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
     public void onBindViewHolder(ViewHolder holder, int position) {
         final VkWallReponse.Response response = items.get(position);
 
-        holder.textViewTitle.setText(response.getText());
+        holder.textViewTitle.setText(Html.fromHtml(response.getText()));
         holder.textViewTitle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

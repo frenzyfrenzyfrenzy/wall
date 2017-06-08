@@ -19,6 +19,8 @@
         android:textSize="12sp"
         android:textColor="@android:color/black"
         android:lineSpacingExtra="2dp"
+        android:maxLines="3"
+        android:ellipsize="end"
         tools:text="Instant View – отображение ссылок на статьи в сообщениях Telegram, которое не требует загрузки и имеет предсказуемый формат. " />
 
     <LinearLayout
