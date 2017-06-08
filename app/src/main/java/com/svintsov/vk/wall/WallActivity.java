@@ -6,20 +6,24 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ScrollView;
+import android.widget.Toast;
 
 import com.svintsov.vk.R;
 import com.svintsov.vk.datamodel.VkWallReponse;
 import com.svintsov.vk.global.StateHolder;
+import com.svintsov.vk.web.VkWallResponseCode;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnCheckedChanged;
+import butterknife.OnClick;
 
 public class WallActivity extends AppCompatActivity {
 
     private final StateHolder stateHolder = new StateHolder(getSupportFragmentManager(), getClass().getSimpleName());
-    ;
     private WallPresenter presenter;
 
     private PostFragment postFragment;
@@ -31,6 +35,9 @@ public class WallActivity extends AppCompatActivity {
 
     @BindView(R.id.activity_wall_layout_wall)
     FrameLayout layoutWall;
+
+    @BindView(R.id.activity_wall_edit_text_id)
+    EditText editTextId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,8 +63,6 @@ public class WallActivity extends AppCompatActivity {
                     .add(R.id.activity_wall_layout_wall, wallFragment, WallFragment.class.getSimpleName())
                     .commit();
         }
-
-        presenter.onLoadWall(1);
     }
 
     @Override
@@ -72,16 +77,32 @@ public class WallActivity extends AppCompatActivity {
                 && (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT)) {
             getSupportFragmentManager()
                     .beginTransaction()
-                    .setCustomAnimations( R.anim.enter_from_bottom, R.anim.exit_to_bottom)
+                    .setCustomAnimations(R.anim.enter_from_bottom, R.anim.exit_to_bottom)
                     .remove(postFragment)
                     .commit();
             postFragment = null;
-        }
-        else super.onBackPressed();
+        } else super.onBackPressed();
     }
 
     public WallPresenter getPresenter() {
         return presenter;
+    }
+
+    /**********
+     * VIEW-ONLY OPS
+     *********/
+
+    @OnClick(R.id.activity_wall_button_load)
+    public void onButtonLoadClick() {
+        int ownerId;
+        try {
+            ownerId = Integer.parseInt(editTextId.getText().toString());
+        } catch (NumberFormatException ex) {
+            Toast.makeText(this, "Incorrect id, try again...",
+                    Toast.LENGTH_SHORT).show();
+            return;
+        }
+        presenter.onLoadWall(ownerId);
     }
 
     /**********
@@ -94,9 +115,28 @@ public class WallActivity extends AppCompatActivity {
             postFragment = PostFragment.getInstance(post);
             getSupportFragmentManager()
                     .beginTransaction()
-                    .setCustomAnimations( R.anim.enter_from_bottom, R.anim.exit_to_bottom)
+                    .setCustomAnimations(R.anim.enter_from_bottom, R.anim.exit_to_bottom)
                     .add(R.id.activity_wall_layout_post, postFragment, PostFragment.class.getSimpleName())
                     .commit();
+        }
+    }
+
+    void updateUiWallLoadStarted() {
+
+    }
+
+    void updateUiWallLoadFinihsed(VkWallResponseCode code) {
+        switch (code) {
+            case SUCCESS:
+                break;
+
+            case FAIL:
+                Toast.makeText(this, "Error loading wall with current id, try another id...",
+                        Toast.LENGTH_SHORT).show();
+                break;
+
+            default:
+                break;
         }
     }
 

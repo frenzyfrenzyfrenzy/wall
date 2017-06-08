@@ -7,6 +7,7 @@ import com.google.gson.GsonBuilder;
 import com.svintsov.vk.adapters.PostsAdapter;
 import com.svintsov.vk.datamodel.VkWallReponse;
 import com.svintsov.vk.utility.Parser;
+import com.svintsov.vk.web.VkWallResponseCode;
 import com.svintsov.vk.web.VkWebApi;
 import com.svintsov.vk.web.VkWebClient;
 
@@ -47,6 +48,8 @@ public class WallPresenter {
     }
 
     private void updateItems(List<VkWallReponse.Response> items) {
+        if (items == null) return;
+
         this.items.clear();
         this.items.addAll(items);
         adapter.notifyDataSetChanged();
@@ -57,6 +60,8 @@ public class WallPresenter {
      *********/
 
     void onLoadWall(int ownerId) {
+        view.updateUiWallLoadStarted();
+
         VkWebApi vkWebApi = VkWebClient.getInstance(context);
         vkWebApi.getWall(ownerId).enqueue(new Callback<ResponseBody>() {
             @Override
@@ -67,15 +72,19 @@ public class WallPresenter {
                     Gson gson = new GsonBuilder().create();
                     VkWallReponse vkWallReponse = gson.fromJson(jsonString, VkWallReponse.class);
 
+                    view.updateUiWallLoadFinihsed(VkWallResponseCode.SUCCESS);
                     updateItems(vkWallReponse.getResponse());
                 } catch (Exception e) {
                     e.printStackTrace();
+
+                    view.updateUiWallLoadFinihsed(VkWallResponseCode.FAIL);
                     updateItems(null);
                 }
             }
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
+                view.updateUiWallLoadFinihsed(VkWallResponseCode.FAIL);
                 updateItems(null);
             }
         });

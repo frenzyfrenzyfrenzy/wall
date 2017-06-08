@@ -34,7 +34,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="8">
                     <EditText
-                        android:id="@+id/username"
+                        android:id="@+id/activity_wall_edit_text_id"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="Id"
@@ -42,6 +42,7 @@
                         android:imeOptions="actionDone"/>
                 </android.support.design.widget.TextInputLayout>
                 <Button
+                    android:id="@+id/activity_wall_button_load"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
