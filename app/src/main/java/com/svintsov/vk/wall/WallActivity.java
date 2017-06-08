@@ -85,6 +85,7 @@ public class WallActivity extends AppCompatActivity {
                     .commit();
             postFragment = null;
         }
+        else super.onBackPressed();
     }
 
     public WallPresenter getPresenter() {
