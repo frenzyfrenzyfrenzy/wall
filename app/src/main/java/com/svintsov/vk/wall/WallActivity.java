@@ -56,15 +56,6 @@ public class WallActivity extends AppCompatActivity {
                     .commit();
         }
 
-        if ((postFragment == null) && (layoutPost != null)
-                && (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE)) {
-            postFragment = PostFragment.getInstance(null);
-            fragmentManager
-                    .beginTransaction()
-                    .add(R.id.activity_wall_layout_post, postFragment, PostFragment.class.getSimpleName())
-                    .commit();
-        }
-
         presenter.onLoadWall(1);
     }
 
