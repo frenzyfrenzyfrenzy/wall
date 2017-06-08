@@ -7,6 +7,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.FrameLayout;
+import android.widget.ScrollView;
 
 import com.svintsov.vk.R;
 import com.svintsov.vk.datamodel.VkWallReponse;
@@ -26,7 +27,7 @@ public class WallActivity extends AppCompatActivity {
 
     @Nullable
     @BindView(R.id.activity_wall_layout_post)
-    FrameLayout layoutPost;
+    ScrollView layoutPost;
 
     @BindView(R.id.activity_wall_layout_wall)
     FrameLayout layoutWall;

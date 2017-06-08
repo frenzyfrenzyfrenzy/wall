@@ -38,7 +38,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="Id"
-                        android:inputType="number" />
+                        android:inputType="number"
+                        android:imeOptions="actionDone"/>
                 </android.support.design.widget.TextInputLayout>
                 <Button
                     android:layout_width="0dp"
@@ -62,11 +63,13 @@
         </FrameLayout>
     </LinearLayout>
 
-    <FrameLayout
+    <ScrollView
         android:id="@+id/activity_wall_layout_post"
         android:layout_width="match_parent"
         android:layout_height="400dp"
-        android:layout_gravity="bottom">
-    </FrameLayout>
+        android:layout_gravity="bottom"
+        android:clickable="false"
+        android:fillViewport="true">
+    </ScrollView>
 
 </FrameLayout>

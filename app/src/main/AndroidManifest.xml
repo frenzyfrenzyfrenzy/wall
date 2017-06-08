@@ -11,7 +11,7 @@
         android:roundIcon="@drawable/wall"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".wall.WallActivity">
+        <activity android:name=".wall.WallActivity" android:windowSoftInputMode="adjustNothing">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
