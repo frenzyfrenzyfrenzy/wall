@@ -6,8 +6,10 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.ProgressBar;
 import android.widget.ScrollView;
 import android.widget.Toast;
 
@@ -38,6 +40,9 @@ public class WallActivity extends AppCompatActivity {
 
     @BindView(R.id.activity_wall_edit_text_id)
     EditText editTextId;
+
+    @BindView(R.id.activity_wall_progress_bar)
+    ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -122,10 +127,12 @@ public class WallActivity extends AppCompatActivity {
     }
 
     void updateUiWallLoadStarted() {
-
+        progressBar.setVisibility(View.VISIBLE);
     }
 
     void updateUiWallLoadFinihsed(VkWallResponseCode code) {
+        progressBar.setVisibility(View.INVISIBLE);
+
         switch (code) {
             case SUCCESS:
                 break;

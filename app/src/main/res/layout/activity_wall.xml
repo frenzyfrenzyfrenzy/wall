@@ -61,6 +61,14 @@
             android:id="@+id/activity_wall_layout_wall"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+            <ProgressBar
+                android:id="@+id/activity_wall_progress_bar"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center"
+                android:visibility="invisible"
+                android:elevation="16dp"
+                android:backgroundTint="@color/colorAccent"/>
         </FrameLayout>
     </LinearLayout>
 
